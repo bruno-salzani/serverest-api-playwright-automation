@@ -1,4 +1,4 @@
-# ServeRest API Automation (Playwright + TypeScript) &middot; by Bruno Salzani
+# ServeRest API Automation (Playwright + TypeScript) &middot;
 
 Suite de testes de API para o ServeRest focada em engenharia de qualidade, confiabilidade e velocidade de feedback. Construída com Playwright Test (APIRequestContext), escrita em TypeScript, com relatórios Allure e validações de contrato via JSON Schema (Ajv).
 
