@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  serverest:
+    image: serverest/serverest:latest
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/monitor"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  wiremock:
+    image: wiremock/wiremock:3.3.1
+    ports:
+      - "8089:8080"
+    command: ["--verbose", "--global-response-templating"]
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.53
+    ports:
+      - "16686:16686" # UI
+      - "14268:14268" # Collector HTTP
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+    environment:
+      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+
+  # Opcional: Pact Broker para gestão de contratos
+  # pact-broker:
+  #   image: pactfoundation/pact-broker:latest
+  #   ports:
+  #     - "9292:9292"
+  #   environment:
+  #     PACT_BROKER_DATABASE_URL: "sqlite:///pact_broker.sqlite"

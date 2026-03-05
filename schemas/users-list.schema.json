@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "required": ["quantidade", "usuarios"],
+  "properties": {
+    "quantidade": { "type": "number" },
+    "usuarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["_id", "nome", "email", "password", "administrador"],
+        "properties": {
+          "_id": { "type": "string" },
+          "nome": { "type": "string" },
+          "email": { "type": "string" },
+          "password": { "type": "string" },
+          "administrador": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,2 @@
+npx --no-install eslint "**/*.{ts,tsx,js}" --max-warnings=0
+npx --no-install tsc --noEmit

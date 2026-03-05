@@ -1,0 +1,14 @@
+target/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.env
+.auth/
+node_modules/
+allure-results/
+test-results/
+playwright-report/
+dist/
+coverage/

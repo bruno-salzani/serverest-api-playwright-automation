@@ -1,0 +1,19 @@
+name: perf-smoke
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  k6:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run k6 smoke
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: perf/k6-smoke.js
+        env:
+          BASE_URL: ${{ vars.BASE_URL || 'https://serverest.dev' }}
