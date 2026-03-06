@@ -1,7 +1,5 @@
-# 🚀 API Test Automation – ServeRest (Playwright + TypeScript) · by Bruno Salzani
-[![CI](https://github.com/BrunoSalzani/serverest-api-playwright-automation/actions/workflows/main.yml/badge.svg)](https://github.com/BrunoSalzani/serverest-api-playwright-automation/actions/workflows/main.yml)
+# 🚀 API Test Automation – ServeRest (Playwright + TypeScript)
 [![Allure Pages](https://img.shields.io/badge/Allure-Pages-blueviolet)](https://BrunoSalzani.github.io/serverest-api-playwright-automation/)
-
 ![Status](https://img.shields.io/badge/Status-Ativo-brightgreen)
 ![Framework](https://img.shields.io/badge/Framework-Playwright-green)
 ![Stack](https://img.shields.io/badge/Stack-Node.js%20%7C%20TypeScript-blue)
