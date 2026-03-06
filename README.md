@@ -1,259 +1,246 @@
-# ServeRest API Automation (Playwright + TypeScript) &middot; by Bruno Salzani
+# 🚀 API Test Automation – ServeRest (Playwright + TypeScript)
+[![CI](https://github.com/OWNER/REPO/actions/workflows/main.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/main.yml)
+[![Allure Pages](https://img.shields.io/badge/Allure-Pages-blueviolet)](https://OWNER.github.io/REPO/)
 
-Suite de testes de API para o ServeRest focada em engenharia de qualidade, confiabilidade e velocidade de feedback. Construída com Playwright Test (APIRequestContext), escrita em TypeScript, com relatórios Allure e validações de contrato via JSON Schema (Ajv).
+![Status](https://img.shields.io/badge/Status-Ativo-brightgreen)
+![Framework](https://img.shields.io/badge/Framework-Playwright-green)
+![Stack](https://img.shields.io/badge/Stack-Node.js%20%7C%20TypeScript-blue)
+![Relatórios](https://img.shields.io/badge/Reports-Allure-purple)
+![Java](https://img.shields.io/badge/Java-Su%C3%ADte%20Opcional-yellow)
 
-Principais pilares:
-- Testes funcionais e de fluxo ponta a ponta de APIs.
-- Validação de contratos com JSON Schema.
-- Geração de dados dinâmica com Faker.
-- Relatórios Allure prontos para CI.
-- Pipeline simples, rápido e confiável (GitHub Actions).
-
-Autor: Bruno Salzani
-
----
-
-## Requisitos
-- Node.js 18+
-- NPM 9+
- - Java 17+ (apenas para a suíte Java opcional)
-
-Opcional:
-- Docker (para executar ServeRest local via docker-compose)
-- Java não é necessário para esta suíte
+Automação de APIs e fluxo E2E para o ServeRest, priorizando confiabilidade, leitura do código e execução reprodutível. A suíte principal usa Playwright Test com APIRequestContext; há também uma suíte Java opcional (JUnit5 + RestAssured) e integração Allure em ambas.
 
 ---
 
-## Instalação
-- Instale dependências:
+# 🎯 Objetivo do Projeto
 
-```bash
-npm install
-```
+Garantir a qualidade dos principais fluxos e endpoints:
+- Autenticação (positivo e negativo) e proteção de rotas
+- Usuários: cadastro, duplicidade, atualização e exclusão
+- Produtos: cadastro (admin), filtros e CRUD
+- Carrinho: criação, regras de integridade, conclusão/cancelamento
+- Contratos: validação com JSON Schema (Ajv)
+- Relatórios Allure com evidências úteis
 
-- (Opcional) Instale navegadores do Playwright:
-
-```bash
-npx playwright install --with-deps
-```
-
----
-
-## Ambiente Local (Opcional)
-- Suba o ServeRest via Docker Compose:
-
-```bash
-docker compose up -d serverest
-```
-
-- Aponte a suíte para o ambiente local:
-
-```bash
-set BASE_URL=http://localhost:3000    # Windows (PowerShell use: $env:BASE_URL="http://localhost:3000")
-export BASE_URL=http://localhost:3000 # Linux/macOS
-npm test
-```
+Foco em:
+- Feedback rápido e determinístico
+- Abstração via Clients para reduzir acoplamento
++- Fail‑fast de variáveis de ambiente
+- Reaproveitamento de dados e estabilidade (retries)
 
 ---
 
-## Execução
-- Testes em linha de comando:
+# 🧠 Estratégia e Arquitetura
 
-```bash
-npm test
-```
+Camadas principais:
+1. API Clients (utils/clients) para Usuarios/Produtos/Carrinho
+2. Fábrica de dados (utils/dataFactory) com Faker
+3. Validações de contrato (schemas + Ajv)
+4. Configuração central (playwright.config.ts) com validação Zod
+5. Global Setup (global-setup.ts) para provisionar e salvar token admin
+6. Retries inteligentes no client (429/5xx) e no CI
+7. Drift Detection (scripts/drift-detect.mjs) comparando schemas com OpenAPI
+8. Suíte Java (JUnit5 + RestAssured) com Allure e plugins de qualidade
 
-- Modo UI do Playwright:
-
-```bash
-npm run test:ui
-```
-
-- Lint e Typecheck:
-
-```bash
-npm run lint
-npm run typecheck
-```
-
-### Suíte Java (Opcional)
-- Requisitos: Java 17+, Maven Wrapper (incluso)
-- Executar testes:
-
-```bash
-# Windows
-.\mvnw.cmd -q test
-
-# Linux/macOS
-./mvnw -q test
-```
-
-- Gerar relatório Allure da suíte Java:
-
-```bash
-# Windows
-.\mvnw.cmd allure:report
-
-# Linux/macOS
-./mvnw allure:report
-```
-
-- Notas:
-  - O pom usa JUnit 5, Rest-Assured, Allure, e plugins de qualidade (Jacoco, Checkstyle, SpotBugs).
-  - Perf (Gatling) está configurado via plugin; use quando necessário:
-    - Windows: .\mvnw.cmd gatling:test
-    - Linux/macOS: ./mvnw gatling:test
+Diretrizes técnicas:
+- Chaves estáveis em payloads/schemas
+- Assertivas claras e mensagens descritivas
+- Sincronização nativa do Playwright (sem waits artificiais)
+- Execução headless e em interface (UI Mode)
 
 ---
 
-## Relatórios
-- Allure (gera e abre relatório local):
+# 🔄 Fluxos Cobertos
 
-```bash
-npm run report:allure
-```
-
-Artefatos brutos são salvos em allure-results/ a cada execução.
-
----
-
-## Configuração
-- Variáveis de ambiente:
-  - BASE_URL: URL base da API (padrão: https://serverest.dev). Pode ser definida em .env.
-
-Exemplo .env:
-```
-BASE_URL=https://serverest.dev
-```
+1. Autenticação
+   - Sucesso retorna token
+   - Negativo recusa credenciais inválidas
+   - Proteção de rota sem token
+2. Usuários
+   - Cadastro com sucesso + duplicidade
+   - Atualização e exclusão
+3. Produtos
+   - Cadastro somente admin
+   - Filtros por nome
+4. Carrinho
+   - Criação e conclusão/cancelamento
+   - Regras: um carrinho por usuário e integridade (bloqueio de exclusão de produto ativo)
+5. Contratos
+   - Login, usuários, produtos, carrinho (criação e conclusão)
 
 ---
 
-## Estrutura do Projeto
+# 📁 Estrutura do Projeto
+
 ```
 tests/
-  contract/               # Validações de contrato (JSON Schema + Ajv)
-  functional/             # Testes funcionais de endpoints
-  e2e/                    # Fluxos ponta a ponta
-schemas/                  # JSON Schemas de respostas
-utils/                    # Fábricas de dados, auth helpers, validators
-global-setup.ts           # Criação e login de usuário admin; salva token
-playwright.config.ts      # Configuração do Playwright
+  contract/                # Validações de contrato (JSON Schema + Ajv)
+  functional/              # Testes funcionais de endpoints
+  e2e/                     # Fluxos ponta a ponta
+schemas/                   # JSON Schemas de respostas
+utils/                     # Clients, fábricas de dados, auth helpers, validators
+scripts/                   # Drift detection (OpenAPI)
+global-setup.ts            # Cria usuário admin e salva token
+playwright.config.ts       # Config Playwright + validação Zod
+
+src/test/java/             # Suíte Java opcional (JUnit5 + RestAssured)
+.github/workflows/         # CI (Playwright + Java + perf opcional)
 ```
 
 Arquivos de destaque:
 - [playwright.config.ts](file:///d:/Projects/serverest-api-playwright-automation/playwright.config.ts)
 - [global-setup.ts](file:///d:/Projects/serverest-api-playwright-automation/global-setup.ts)
+- [utils/clients/baseApi.ts](file:///d:/Projects/serverest-api-playwright-automation/utils/clients/baseApi.ts)
 - [utils/dataFactory.ts](file:///d:/Projects/serverest-api-playwright-automation/utils/dataFactory.ts)
 - [utils/auth.ts](file:///d:/Projects/serverest-api-playwright-automation/utils/auth.ts)
 
 ---
 
-## Pipelines (CI/CD)
+# ⚙️ Funcionalidades Automatizadas
+
+## Autenticação
+- Geração e uso de token admin no setup
+- Cenários positivo, negativo e rota protegida
+
+## Usuários e Produtos
+- CRUD essencial para usuários
+- Produtos com restrição de admin e filtros
+
+## Carrinho
+- Criação, regras (um por usuário) e conclusão/cancelamento
+- Bloqueio de exclusão de produto com carrinho ativo
+
+## Contratos (Ajv)
+- Schemas em /schemas; validação com mensagens de erro claras
+
+## Observabilidade
+- Allure com anexos de request/response em falhas
+- Environment com Author (Bruno Salzani) nos relatórios
+
+---
+
+# 🧪 Boas Práticas
+
+- Abstração de chamadas via Clients (User/Product/Cart)
+- Schemas JSON revisáveis e simples o bastante para estabilidade
+- Zod para fail‑fast de variáveis (BASE_URL, API_TIMEOUT)
+- Retries para 429/5xx (client + CI)
+- ESLint (imports) e TypeScript strict
+- Drift Detection contra OpenAPI
+
+---
+
+# 📊 Riscos e Mitigações
+
+- Flakiness por instabilidade pública do ServeRest → retries 429/5xx e CI com tentativas
+- Deriva entre schema local e API real → script de drift detection
+- Ambientes variáveis → BASE_URL configurável; suporte a docker-compose local
+
+---
+
+# 🛠️ Tecnologias
+
+- Playwright Test (API)
+- Node.js + TypeScript
+- Ajv (JSON Schema), Zod (Env), Faker
+- Allure (reports)
+- GitHub Actions (CI)
+- Java opcional: JUnit5, RestAssured, Allure, Gatling (perf)
+
+---
+
+# ▶️ Como Executar
+
+1) Instalar dependências
+```
+npm install
+```
+
+2) (Opcional) Instalar navegadores Playwright
+```
+npx playwright install --with-deps
+```
+
+3) Executar suíte (CLI)
+```
+npm test
+```
+
+4) Modo interface (UI)
+```
+npm run test:ui
+```
+
+5) Lint e Typecheck
+```
+npm run lint
+npm run typecheck
+```
+
+6) Ambiente local (opcional)
+```
+docker compose up -d serverest
+# Windows PowerShell:
+$env:BASE_URL="http://localhost:3000"; npm test
+# Linux/macOS:
+BASE_URL=http://localhost:3000 npm test
+```
+
+### Suíte Java (Opcional)
+- Requisitos: Java 17+
+- Executar:
+```
+# Windows
+.\mvnw.cmd -q test
+# Linux/macOS
+./mvnw -q test
+```
+- Relatório Allure (Java):
+```
+.\mvnw.cmd allure:report     # Windows
+./mvnw allure:report         # Linux/macOS
+```
+
+---
+
+# 📄 Relatórios
+
+- Allure (local):
+```
+npm run report:allure
+```
+- Artefatos são gerados em allure-results/; no CI os resultados de Playwright e Java são publicados como artefatos separados.
+
+---
+
+# 📦 Pipelines (CI/CD)
+
 Workflow principal:
-- Instala dependências com cache.
-- Executa lint e typecheck.
-- Instala navegadores do Playwright (compatibilidade).
-- Roda testes com BASE_URL configurável via GitHub Variables.
-- Publica artefatos do Allure.
-- Executa suíte Java e publica os Allure da suíte Java.
+- Node.js com cache de dependências
+- Lint e typecheck
+- Instala browsers do Playwright
+- Roda testes Playwright com BASE_URL de GitHub Variables
+- Publica Allure (Playwright)
+- Roda suíte Java e publica Allure (Java)
 
 Arquivo: [.github/workflows/main.yml](file:///d:/Projects/serverest-api-playwright-automation/.github/workflows/main.yml)
 
 Performance (Smoke):
-- Workflow opcional roda um smoke de performance com k6 contra BASE_URL.
-- Arquivo: [.github/workflows/perf.yml](file:///d:/Projects/serverest-api-playwright-automation/.github/workflows/perf.yml)
+- Workflow opcional com k6: [.github/workflows/perf.yml](file:///d:/Projects/serverest-api-playwright-automation/.github/workflows/perf.yml)
 - Script: [perf/k6-smoke.js](file:///d:/Projects/serverest-api-playwright-automation/perf/k6-smoke.js)
 
 Configuração no GitHub:
-- Defina a variável de repositório BASE_URL em Settings → Secrets and variables → Actions → Variables.
-- Artefatos do Allure ficam disponíveis em cada execução do workflow (aba “Artifacts”).
-- Para badge do CI, use:  
-  https://github.com/OWNER/REPO/actions/workflows/main.yml/badge.svg  
-  Substitua OWNER/REPO pelo seu repositório.
-
-Links úteis (após rodar o CI):
-- Allure (Playwright): Artifact “allure-results”
-- Allure (Java): Artifact “java-allure-results”
+- Defina a variável BASE_URL em Settings → Secrets and variables → Actions → Variables
+- Artefatos:
+  - “allure-results” (Playwright)
+  - “java-allure-results” (Java)
+- Badge de CI:
+  https://github.com/OWNER/REPO/actions/workflows/main.yml/badge.svg (substitua OWNER/REPO)
 
 ---
 
-## Boas Práticas Implementadas
-- Reutilização de contexto autenticado via token (.auth/token.json).
-- Geração de massa com Faker e nomes únicos.
-- Schemas JSON simples e estritos o suficiente para evitar regressões sem flakiness.
-- Tempo de execução e SLAs validados em alguns testes sensíveis (ex.: < 2s).
-- ESLint com regras de imports e remoção de imports não utilizados.
-- TypeScript estrito (strict: true).
-- Camada de Clients para APIs (User/Product/Cart) com retry inteligente e evidências Allure em falhas.
-- Validação de variáveis de ambiente com Zod (fail-fast, mensagens claras).
-- Script de Drift Detection para sincronismo com OpenAPI do ServeRest.
-- Retries adaptativos em CI (retries: 2).
+# 🤝 Conclusão
 
----
+Automação consistente dos fluxos essenciais do ServeRest com foco em clareza, manutenção simples e execução confiável em diferentes ambientes.
 
-## Dicas de Troubleshooting
-- Erros 429/5xx esporádicos do ambiente público do ServeRest podem ocorrer. Reexecute.
-- Se o Allure não abrir automaticamente, verifique se o Java está instalado localmente para o allure CLI. No CI, apenas os artefatos brutos são publicados.
-- Para isolar do ambiente público, considere usar o docker-compose incluso para subir um ServeRest local.
-
----
-
-## Camada de Clients (Abstração de API)
-- Motivação: evitar acoplamento direto aos endpoints em testes. Se a rota mudar, você altera o Client, não 10 testes.
-- Local: utils/clients/
-  - [baseApi.ts](file:///d:/Projects/serverest-api-playwright-automation/utils/clients/baseApi.ts): criação de contexto e `apiCall` com retries 429/5xx e anexos Allure automáticos em falha.
-  - [userClient.ts](file:///d:/Projects/serverest-api-playwright-automation/utils/clients/userClient.ts)
-  - [productClient.ts](file:///d:/Projects/serverest-api-playwright-automation/utils/clients/productClient.ts)
-  - [cartClient.ts](file:///d:/Projects/serverest-api-playwright-automation/utils/clients/cartClient.ts)
-
-Exemplo de uso (já aplicado em um E2E):
-```
-const productClient = new ProductClient(adminApi);
-const created = await productClient.create(productPayload);
-expect(created.status).toBe(201);
-```
-
----
-
-## Validação de Env Vars (Zod)
-- Em [playwright.config.ts](file:///d:/Projects/serverest-api-playwright-automation/playwright.config.ts), as variáveis são validadas com Zod.
-- Padrões:
-  - BASE_URL: default https://serverest.dev
-  - API_TIMEOUT: default 30000
-
----
-
-## Drift Detection (OpenAPI)
-- Baixa o swagger oficial e verifica compatibilidade básica com os Schemas principais.
-- Comando:
-
-```bash
-npm run drift:check
-```
-
-- Saída não afeta a execução da suíte, mas ajuda a detectar mudanças na API cedo.
-
----
-
-## Convenções de Qualidade e Commits
-- Lint: ESLint v9 com flat config (remoção de imports não utilizados e ordenação).
-- Tipagem: TypeScript strict.
-- Hooks: Husky executa lint e typecheck no pre-commit.
-- Commits: commitlint (padrão convencional). Exemplos:
-  - feat(api): adiciona validação de contrato de login
-  - fix(users): corrige mensagem ao excluir usuário
-
----
-
-## Scripts Disponíveis
-- test: Executa a suíte Playwright.
-- test:ui: Abre a UI do Playwright.
-- lint: Lint em arquivos de testes TypeScript.
-- typecheck: Checagem de tipos.
-- report:allure: Gera e abre o relatório Allure localmente.
-- drift:check: Verifica “drift” contra o OpenAPI do ServeRest.
-
----
-
-## Créditos
-Projeto criado por Bruno Salzani, para demonstrar práticas modernas de automação de testes de API com Playwright, priorizando clareza, confiabilidade e feedback rápido.
+Autor: Bruno Salzani
