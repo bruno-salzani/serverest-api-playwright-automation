@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 # 🚀 API Test Automation – ServeRest (Playwright + TypeScript)
 [![CI](https://github.com/OWNER/REPO/actions/workflows/main.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/main.yml)
 [![Allure Pages](https://img.shields.io/badge/Allure-Pages-blueviolet)](https://OWNER.github.io/REPO/)
-=======
-# ServeRest API Automation (Playwright + TypeScript) &middot;
->>>>>>> bdfd5f2559e1d171e3cbf1f9b6e0e611be903ac2
 
 ![Status](https://img.shields.io/badge/Status-Ativo-brightgreen)
 ![Framework](https://img.shields.io/badge/Framework-Playwright-green)
