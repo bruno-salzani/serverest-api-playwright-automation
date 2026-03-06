@@ -1,0 +1,38 @@
+<div>POST to https://serverest.dev/carrinhos</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;produtos&quot;: [
+        {
+            &quot;idProduto&quot;: &quot;tB31miECaIPQG5qS&quot;,
+            &quot;quantidade&quot;: 1
+        }
+    ]
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcmxhLm5vdmFlcyt0ZXN0X2NlZWY5Njg2QHFhLmNvbSIsInBhc3N3b3JkIjoiZmR2YWRicmtrY2g3bCIsImlhdCI6MTc3Mjc0Njc5OCwiZXhwIjoxNzcyNzQ3Mzk4fQ.9es-vRoNcsmgcvl3QxRroY1LHYKgYUM0sqwesxrVDzM</div>
+            <div>Accept: */*</div>
+            <div>X-Correlation-ID: 5298fbdcf8394983afc58d6fe4842230</div>
+            <div>traceparent: 00-5298fbdcf8394983afc58d6fe4842230-1f35be76bdc94dbd-01</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;https://serverest.dev/carrinhos&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcmxhLm5vdmFlcyt0ZXN0X2NlZWY5Njg2QHFhLmNvbSIsInBhc3N3b3JkIjoiZmR2YWRicmtrY2g3bCIsImlhdCI6MTc3Mjc0Njc5OCwiZXhwIjoxNzcyNzQ3Mzk4fQ.9es-vRoNcsmgcvl3QxRroY1LHYKgYUM0sqwesxrVDzM&#39; -H &#39;Accept: */*&#39; -H &#39;X-Correlation-ID: 5298fbdcf8394983afc58d6fe4842230&#39; -H &#39;traceparent: 00-5298fbdcf8394983afc58d6fe4842230-1f35be76bdc94dbd-01&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;produtos&quot;: [
+        {
+            &quot;idProduto&quot;: &quot;tB31miECaIPQG5qS&quot;,
+            &quot;quantidade&quot;: 1
+        }
+    ]
+}&#39;
+    </div>
+

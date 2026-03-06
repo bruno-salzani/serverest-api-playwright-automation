@@ -1,0 +1,33 @@
+<div>POST to https://serverest.dev/usuarios</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;nome&quot;: &quot;Ana Vitória Esteves&quot;,
+    &quot;email&quot;: &quot;elisio.viana+test_ceef9686@qa.com&quot;,
+    &quot;password&quot;: &quot;ld47lzrnus96xi&quot;,
+    &quot;administrador&quot;: &quot;false&quot;
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Accept: */*</div>
+            <div>X-Correlation-ID: 11da1b8db0834b71bed4e6827719dce5</div>
+            <div>traceparent: 00-11da1b8db0834b71bed4e6827719dce5-047577ede0c84646-01</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;https://serverest.dev/usuarios&#39; -H &#39;Accept: */*&#39; -H &#39;X-Correlation-ID: 11da1b8db0834b71bed4e6827719dce5&#39; -H &#39;traceparent: 00-11da1b8db0834b71bed4e6827719dce5-047577ede0c84646-01&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;nome&quot;: &quot;Ana Vitória Esteves&quot;,
+    &quot;email&quot;: &quot;elisio.viana+test_ceef9686@qa.com&quot;,
+    &quot;password&quot;: &quot;ld47lzrnus96xi&quot;,
+    &quot;administrador&quot;: &quot;false&quot;
+}&#39;
+    </div>
+

@@ -1,0 +1,33 @@
+<div>POST to https://serverest.dev/produtos</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;nome&quot;: &quot;test_ceef9686_Intelligent Rubber Bench c17894ad&quot;,
+    &quot;preco&quot;: 258,
+    &quot;descricao&quot;: &quot;Plastic&quot;,
+    &quot;quantidade&quot;: 29
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Accept: */*</div>
+            <div>X-Correlation-ID: 11da1b8db0834b71bed4e6827719dce5</div>
+            <div>traceparent: 00-11da1b8db0834b71bed4e6827719dce5-2977a005f32d4676-01</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;https://serverest.dev/produtos&#39; -H &#39;Accept: */*&#39; -H &#39;X-Correlation-ID: 11da1b8db0834b71bed4e6827719dce5&#39; -H &#39;traceparent: 00-11da1b8db0834b71bed4e6827719dce5-2977a005f32d4676-01&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;nome&quot;: &quot;test_ceef9686_Intelligent Rubber Bench c17894ad&quot;,
+    &quot;preco&quot;: 258,
+    &quot;descricao&quot;: &quot;Plastic&quot;,
+    &quot;quantidade&quot;: 29
+}&#39;
+    </div>
+

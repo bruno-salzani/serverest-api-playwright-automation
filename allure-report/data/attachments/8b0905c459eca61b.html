@@ -1,0 +1,34 @@
+<div>POST to https://serverest.dev/produtos</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+{
+    &quot;nome&quot;: &quot;test_ceef9686_Synergistic Wool Shoes 895513b5&quot;,
+    &quot;preco&quot;: 122,
+    &quot;descricao&quot;: &quot;Wool&quot;,
+    &quot;quantidade&quot;: 5
+}    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hcmlhaC5tZW5kYW5oYSt0ZXN0X2NlZWY5Njg2QHFhLmNvbSIsInBhc3N3b3JkIjoiN3E2bXlnczRlbmh4cTQiLCJpYXQiOjE3NzI3NDY3OTMsImV4cCI6MTc3Mjc0NzM5M30.cdHcBOWFnRhP1voEYWX21Upb28mrQKzUTYLJQ5fK7io</div>
+            <div>Accept: */*</div>
+            <div>X-Correlation-ID: 2baeb3e4161e42a38f15036ab28b2c04</div>
+            <div>traceparent: 00-2baeb3e4161e42a38f15036ab28b2c04-ad2749a8dbb34d9b-01</div>
+            <div>Content-Type: application/json</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;https://serverest.dev/produtos&#39; -H &#39;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hcmlhaC5tZW5kYW5oYSt0ZXN0X2NlZWY5Njg2QHFhLmNvbSIsInBhc3N3b3JkIjoiN3E2bXlnczRlbmh4cTQiLCJpYXQiOjE3NzI3NDY3OTMsImV4cCI6MTc3Mjc0NzM5M30.cdHcBOWFnRhP1voEYWX21Upb28mrQKzUTYLJQ5fK7io&#39; -H &#39;Accept: */*&#39; -H &#39;X-Correlation-ID: 2baeb3e4161e42a38f15036ab28b2c04&#39; -H &#39;traceparent: 00-2baeb3e4161e42a38f15036ab28b2c04-ad2749a8dbb34d9b-01&#39; -H &#39;Content-Type: application/json&#39; -d &#39;{
+    &quot;nome&quot;: &quot;test_ceef9686_Synergistic Wool Shoes 895513b5&quot;,
+    &quot;preco&quot;: 122,
+    &quot;descricao&quot;: &quot;Wool&quot;,
+    &quot;quantidade&quot;: 5
+}&#39;
+    </div>
+
